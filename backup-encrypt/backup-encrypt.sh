@@ -2,8 +2,13 @@
 
 SAVE_DIR=${SAVE_DIR:-'/tmp'}
 date=`date +%Y-%b-%d-%H:%M:%S`
-enc_file=${SAVE_DIR}/backup-${date}.enc
+enc_file=${SAVE_DIR}/backup-${date}.age
 
+if [ ${#FILE} -eq 0 ];
+then
+  echo "No set file ENV"
+  exit 2
+fi
 
 # For ubuntu check that age and awscli is installed
 age --version
