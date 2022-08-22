@@ -55,9 +55,6 @@ EOF
 
 # Copy to s3
 aws s3 cp --endpoint-url=https://${S3_ENDPOINT} $enc_file s3://${S3_BUCKET}/${S3_FOLDER}
-
-rm $AWS_SHARED_CREDENTIALS_FILE
-rm $AWS_CONFIG_FILE
 rm $enc_file
 rm $FILE
 
@@ -82,3 +79,7 @@ then
     fi
 fi
 done;
+
+
+rm $AWS_SHARED_CREDENTIALS_FILE
+rm $AWS_CONFIG_FILE
