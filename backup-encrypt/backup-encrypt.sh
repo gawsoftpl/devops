@@ -10,6 +10,13 @@ then
   exit 2
 fi
 
+if [ ! -f $FILE ];
+then
+  echo "$FILE not exists"
+  exit 2
+fi
+
+
 # For ubuntu check that age and awscli is installed
 age --version
 if [[ $? -gt 0 ]];
