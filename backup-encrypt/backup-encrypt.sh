@@ -1,7 +1,8 @@
 #!/bin/bash
 
+SAVE_DIR=${SAVE_DIR:-'/tmp'}
 date=`date +%Y-%b-%d-%H:%M:%S`
-enc_file=/tmp/backup-${date}.enc
+enc_file=${SAVE_DIR}/backup-${date}.enc
 
 
 # For ubuntu check that age and awscli is installed
