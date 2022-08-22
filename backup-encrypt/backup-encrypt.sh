@@ -44,4 +44,5 @@ aws s3 cp --endpoint-url=https://${S3_ENDPOINT} $enc_file s3://${S3_BUCKET}/${S3
 
 rm $AWS_SHARED_CREDENTIALS_FILE
 rm $AWS_CONFIG_FILE
+rm $enc_file
 rm $FILE
