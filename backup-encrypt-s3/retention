@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ ${#RETENTION_FILE_MAX_DAYS} -gt 0 ] && [ $RETENTION_FILE_MAX_DAYS -gt 0 ];
+if [ ${#RETENTION_FILE_MAX_DAYS} -gt 0 ];
 then
   echo "Start retention"
   files_limit=${RETENTION_MAX_FILES}

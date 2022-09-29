@@ -7,8 +7,6 @@ enc_file="${FILE}.age"
 RETENTION_MAX_FILES=${RETENTION_MAX_FILES:-100}
 RETENTION_FILE_MAX_DAYS=${RETENTION_FILE_MAX_DAYS:-90}
 
-scriptdir="$(dirname "$0")"
-
 if [ ${#FILE} -eq 0 ];
 then
   echo "No set file ENV"
@@ -45,9 +43,4 @@ cat $FILE | age -r $AGE_PUBLIC_KEY > $enc_file
 
 # Copy to s3
 s5cmd cp $enc_file s3://${S3_BUCKET}${S3_BUCKET_PATH}
-#rm $enc_file
-#rm $FILE
 
-# Retention
-# Remove old files from s3
-. "$scriptdir/retention"
