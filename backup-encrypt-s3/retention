@@ -1,0 +1,33 @@
+#!/bin/sh
+
+if [ ${#RETENTION_FILE_MAX_DAYS} -gt 0 ];
+then
+  files_limit=${RETENTION_MAX_FILES}
+  files_index=0
+  is_dir=`echo $line | grep DIR`
+  if [ ${#is_dir} -eq 0 ];
+  then
+    s5cmd ls s3://${S3_BUCKET}/${S3_FOLDER} | tac | while read -r line;  do
+    files_index=$(expr $files_index + 1)
+    createDate=`echo $line|awk {'print $1" "$2'}`
+    if [ ${#createDate} -gt 0 ];
+    then
+      createDate=`date -d"$createDate" +%s`
+      olderThan=`date -d"-$RETENTION_FILE_MAX_DAYS days" +%s`
+      if [ $createDate -lt $olderThan ] && [ $files_index -gt $files_limit ];
+      then
+          fileName=`echo $line|awk '{$1=$2=$3=""; print $0}' | sed 's/^[ \t]*//'`
+          echo delete $fileName
+          if [ $fileName != "" ];
+          then
+              s5cmd rm "s3://${S3_BUCKET}/${S3_FOLDER}${fileName}"
+              if [ $? -eq 0 ];
+              then
+                echo "$fileName removed"
+              fi
+          fi
+      fi
+    fi
+    done;
+  fi
+fi

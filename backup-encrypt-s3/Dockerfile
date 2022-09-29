@@ -14,3 +14,6 @@ FROM alpine
 
 COPY --from=downloader /tmp/age/age /usr/bin
 COPY --from=downloader /tmp/s5cmd /usr/bin
+
+COPY backup_encrypt_s3 /usr/bin/backup_encrypt_s3
+COPY retention /usr/bin/retention
