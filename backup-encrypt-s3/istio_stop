@@ -1,2 +1,2 @@
 #!/bin/sh
-curlie -X POST http://localhost:15020/quitquitquit
+wget -qO - --post-data '' http://127.0.0.1:15020/quitquitquit

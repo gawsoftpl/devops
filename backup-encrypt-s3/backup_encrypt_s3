@@ -44,7 +44,7 @@ fi
 cat $FILE | age -r $AGE_PUBLIC_KEY > $enc_file
 
 # Copy to s3
-s5cmd cp $enc_file s3://${S3_BUCKET}/${S3_FOLDER}
+s5cmd cp $enc_file s3://${S3_BUCKET}${S3_BUCKET_PATH}
 #rm $enc_file
 #rm $FILE
 
