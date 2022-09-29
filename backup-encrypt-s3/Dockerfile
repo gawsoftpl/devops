@@ -12,8 +12,12 @@ RUN wget -O s5cmd.tar.gz https://github.com/peak/s5cmd/releases/download/v2.0.0/
 
 FROM alpine
 
+RUN addgroup -S backup && adduser -u 2000 -S backup -G backup
+
 COPY --from=downloader /tmp/age/age /usr/bin
 COPY --from=downloader /tmp/s5cmd /usr/bin
 
 COPY backup_encrypt_s3 /usr/bin/backup_encrypt_s3
 COPY retention /usr/bin/retention
+
+USER backup

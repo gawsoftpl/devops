@@ -2,9 +2,8 @@
 
 FILE=${FILE:-$1}
 
-SAVE_DIR=${SAVE_DIR:-'/tmp'}
 date=`date +%Y-%b-%d-%H:%M:%S`
-enc_file=${SAVE_DIR}/backup-${date}.age
+enc_file="${FILE}.age"
 RETENTION_MAX_FILES=${RETENTION_MAX_FILES:-100}
 RETENTION_FILE_MAX_DAYS=${RETENTION_FILE_MAX_DAYS:-90}
 
