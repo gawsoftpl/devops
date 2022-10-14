@@ -1,13 +1,11 @@
 # Overall
-Encrypt file vith age encryption and copy to s3 bucket
+Encrypt file vith age encryption and copy to s3 bucket via restic
 
 ## Requirements env
 ```
-S3_ENDPOINT_URL=https://s3.us-east-1.wasabisys.com
-AWS_ACCESS_KEY_ID=9N1A9L.....
-AWS_SECRET_ACCESS_KEY=KzAT03Ow7Yf....
-AWS_REGION=us-east-1
-AGE_PUBLIC_KEY=age14kh75ve7frqc9srzfvu06lxkjaak5yvntdx0605hv7acg6w6a4rqw46vel
-S3_BUCKET=my-backup-bucket
-S3_BUCKET_PATH=/
+AGE_PUBLIC_KEY=age14yhyz50kycgd3umvncpqflh25dh85ru6syjpthrkwvshlap4ly6s44edaz
+RESTIC_PASSWORD="backup"
+RESTIC_REPOSITORY="s3:https://s3.wasabisys.com/your-bucket-name"
+AWS_ACCESS_KEY_ID="your-Wasabi-Access-Key"
+AWS_SECRET_ACCESS_KEY="your-Wasasbi-Secret-Key"
 ```
