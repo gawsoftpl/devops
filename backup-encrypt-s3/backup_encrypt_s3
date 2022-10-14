@@ -23,6 +23,9 @@ then
 fi
 
 
+RESTIC_PATH=restic
+AGE_PATH=age
+
 # Check that required tools is installed
 age --version
 if [ $? -gt 0 ];
@@ -30,16 +33,16 @@ then
   wget -O /tmp/age.tar.gz https://github.com/FiloSottile/age/releases/download/v1.0.0/age-v1.0.0-linux-amd64.tar.gz
   tar -xvf /tmp/age.tar.gz
   chmod +x /tmp/age/age
-  cp /tmp/age/age /usr/bin
+  AGE_PATH=/tmp/age/age
 fi
 
 restic version
 if [ $? -gt 0 ];
 then
-  wget -O /tmp/restic.bz2 https://github.com/restic/restic/releases/download/v0.14.0/restic_0.14.0_linux_amd64.bz2 \
-  && bzip2 -d /tmp/restic.bz2 \
-  && chmod +x /tmp/restic \
-  && mv /tmp/restic /usr/bin 
+  wget -O /tmp/restic.bz2 https://github.com/restic/restic/releases/download/v0.14.0/restic_0.14.0_linux_amd64.bz2
+  bzip2 -d /tmp/restic.bz2
+  chmod +x /tmp/restic
+  RESTIC_PATH=/tmp/restic
 fi
 
 # Encrypt file
