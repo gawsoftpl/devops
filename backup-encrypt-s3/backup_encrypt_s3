@@ -46,13 +46,13 @@ then
 fi
 
 # Encrypt file
-cat $FILE | age -r $AGE_PUBLIC_KEY > $enc_file
+cat $FILE | $AGE_PATH -r $AGE_PUBLIC_KEY > $enc_file
 
 # Init repo
-restic init
+$RESTIC_PATH init
 
 # Create backup
-restic backup $enc_file --verbose --tag ${BACKUP_TAG:-"backup"}
+$RESTIC_PATH backup $enc_file --verbose --tag ${BACKUP_TAG:-"backup"}
 
 # Retention
 forget_param=""
@@ -89,5 +89,5 @@ fi
 # Retention
 if [ ${#forget_param} -gt 0 ];
 then
-  restic forget ${forget_param} --prune
+  $RESTIC_PATH forget ${forget_param} --prune
 fi
