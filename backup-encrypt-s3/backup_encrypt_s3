@@ -1,11 +1,8 @@
 #!/bin/sh
-
 FILE=${FILE:-$1}
 
 date=`date +%Y-%b-%d-%H:%M:%S`
 enc_file="${FILE}.age"
-RETENTION_MAX_FILES=${RETENTION_MAX_FILES:-100}
-RETENTION_FILE_MAX_DAYS=${RETENTION_FILE_MAX_DAYS:-90}
 
 if [ ${#FILE} -eq 0 ];
 then
@@ -19,6 +16,13 @@ then
   exit 2
 fi
 
+if [ ${#AGE_PUBLIC_KEY} -eq 0 ];
+then
+  echo "No set AGE_PUBLIC_KEY"
+  exit 2
+fi
+
+
 # Check that required tools is installed
 age --version
 if [ $? -gt 0 ];
@@ -29,18 +33,58 @@ then
   cp /tmp/age/age /usr/bin
 fi
 
-s5cmd version
+restic version
 if [ $? -gt 0 ];
 then
-  wget -O /tmp/s5cmd.tar.gz https://github.com/peak/s5cmd/releases/download/v2.0.0/s5cmd_2.0.0_Linux-64bit.tar.gz
-  tar -xvf /tmp/s5cmd.tar.gz
-  chmod +x /tmp/s5cmd
-  mv /tmp/s5cmd /usr/bin
+  wget -O /tmp/restic.bz2 https://github.com/restic/restic/releases/download/v0.14.0/restic_0.14.0_linux_amd64.bz2 \
+  && bzip2 -d /tmp/restic.bz2 \
+  && chmod +x /tmp/restic \
+  && mv /tmp/restic /usr/bin 
 fi
 
 # Encrypt file
 cat $FILE | age -r $AGE_PUBLIC_KEY > $enc_file
 
-# Copy to s3
-s5cmd cp $enc_file s3://${S3_BUCKET}${S3_BUCKET_PATH}
+# Init repo
+restic init
 
+# Create backup
+restic backup $enc_file --verbose --tag ${BACKUP_TAG:-"backup"}
+
+# Retention
+forget_param=""
+if [ ${#RETENTION_WITHIN} -gt 0 ];
+then
+forget_param="$forget_param --keep-within=${RETENTION_WITHIN}"
+fi
+
+if [ ${#RETENTION_DAILY} -gt 0 ];
+then
+forget_param="$forget_param --keep-daily=${RETENTION_DAILY}"
+fi
+
+if [ ${#RETENTION_WEEKLY} -gt 0 ];
+then
+forget_param="$forget_param --keep-weekly=${RETENTION_WEEKLY}"
+fi
+
+if [ ${#RETENTION_MONTHLY} -gt 0 ];
+then
+forget_param="$forget_param --keep-monthly=${RETENTION_MONTHLY}"
+fi
+
+if [ ${#RETENTION_YEARLY} -gt 0 ];
+then
+forget_param="$forget_param --keep-yearly=${RETENTION_YEARLY}"
+fi
+
+if [ ${#RETENTION_RAW} -gt 0 ];
+then
+forget_param="${RETENTION_RAW}"
+fi
+
+# Retention
+if [ ${#forget_param} -gt 0 ];
+then
+  restic forget ${forget_param} --prune
+fi
