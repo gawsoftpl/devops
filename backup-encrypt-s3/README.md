@@ -20,15 +20,9 @@ AWS_SECRET_ACCESS_KEY="your-Wasasbi-Secret-Key"
       "Action": [
         "s3:PutObject",
         "s3:GetObject",
-        "s3:GetBucketLocation",
         "s3:DeleteObject",
-        "s3:ListBucketVersions",
         "s3:ListBucket",
-        "s3:GetBucketVersioning",
-        "s3:GetBucketNotification",
-        "s3:PutBucketNotification",
-        "s3:GetBucketLocation",
-        "s3:GetBucketTagging"
+        "s3:GetBucketLocation"
       ],
       "Resource": [
         "arn:aws:s3:::bucket",
