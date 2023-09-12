@@ -52,6 +52,7 @@ then
     tar -xvf /tmp/age-yubikey.tar.gz -C /tmp/
     chmod +x /tmp/age-plugin-yubikey/age-plugin-yubikey
     cp $AGE_YUBIKEY_PATH /bin
+    apt update && apt-get install -y libpcsclite-dev
   fi
 fi
 
