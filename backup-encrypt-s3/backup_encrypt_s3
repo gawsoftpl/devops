@@ -37,6 +37,7 @@ then
     wget -O /tmp/age.tar.gz https://github.com/FiloSottile/age/releases/download/v1.0.0/age-v1.0.0-linux-amd64.tar.gz
     tar -xvf /tmp/age.tar.gz -C /tmp/
     chmod +x /tmp/age/age
+    cp $AGE_PATH /bin
   fi
 fi
 
