@@ -66,6 +66,7 @@ then
     wget -O /tmp/restic.bz2 https://github.com/restic/restic/releases/download/v0.16.0/restic_0.16.0_linux_amd64.bz2
     bzip2 -d /tmp/restic.bz2
     chmod +x /tmp/restic
+    cp $RESTIC_PATH /bin
   fi
 fi
 
