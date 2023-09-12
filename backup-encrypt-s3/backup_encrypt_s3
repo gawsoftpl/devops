@@ -16,9 +16,9 @@ then
   exit 2
 fi
 
-if [ ${#AGE_PUBLIC_KEY} -eq 0 ];
+if [ ${#AGE_PUBLIC_KEY} -eq 0 ] && [ ${#AGE_RECIPIENTS_FILE} -eq 0 ];
 then
-  echo "No set AGE_PUBLIC_KEY"
+  echo "No set AGE_PUBLIC_KEY or AGE_RECIPIENTS_FILE"
   exit 2
 fi
 
