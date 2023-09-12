@@ -40,6 +40,20 @@ then
   fi
 fi
 
+age-plugin-yubikey --version
+if [ $? -gt 0 ];
+then
+  AGE_YUBIKEY_PATH=/tmp/age-plugin-yubikey/age-plugin-yubikey
+  $AGE_YUBIKEY_PATH --version
+  if [ $? -gt 0 ];
+  then
+    wget -O /tmp/age-yubikey.tar.gz https://github.com/str4d/age-plugin-yubikey/releases/download/v0.4.0/age-plugin-yubikey-v0.4.0-x86_64-linux.tar.gz
+    tar -xvf /tmp/age-yubikey.tar.gz -C /tmp/
+    chmod +x /tmp/age-plugin-yubikey/age-plugin-yubikey
+    cp $AGE_YUBIKEY_PATH /bin
+  fi
+fi
+
 restic version
 if [ $? -gt 0 ];
 then
@@ -54,7 +68,12 @@ then
 fi
 
 # Encrypt file
-cat $FILE | $AGE_PATH -r $AGE_PUBLIC_KEY > $enc_file
+if [ ${#AGE_RECIPIENTS_FILE} -gt 0 ];
+then
+  cat $FILE | $AGE_PATH -R $AGE_RECIPIENTS_FILE > $enc_file
+else
+  cat $FILE | $AGE_PATH -r $AGE_PUBLIC_KEY > $enc_file
+fi
 
 # Init repo
 $RESTIC_PATH init
