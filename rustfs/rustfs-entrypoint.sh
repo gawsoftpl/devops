@@ -33,15 +33,15 @@ RUSTFS_PID=$!
 trap 'kill -TERM $RUSTFS_PID 2>/dev/null' INT TERM EXIT
 
 # 2. Wait for RustFS API connection quietly
-echo "[INFO] Waiting for RustFS server to start..." >&2
-until curl -s -f -o /dev/null \
+echo "[INFO] Waiting for RustFS storage engine to be ready..." >&2
+until [ "$(curl -s -o /dev/null -w "%{http_code}" \
   --aws-sigv4 "aws:amz:us-east-1:s3" \
   --user "$RUSTFS_USER:$RUSTFS_PASS" \
-  "$RUSTFS_URL" 2>/dev/null; do
+  "$RUSTFS_URL")" -eq 200 ]; do
   sleep 1
 done
 
-echo "[INFO] RustFS is ready." >&2
+echo "[INFO] RustFS storage engine is ready." >&2
 
 # 3. Create default buckets
 create_bucket "test"
