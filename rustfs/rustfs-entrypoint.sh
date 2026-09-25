@@ -3,7 +3,7 @@
 # Force unbuffered output so stdout/stderr flushes immediately to Docker logs
 export RUST_LOG=${RUST_LOG:-"info"}
 export RUSTFS_OBS_LOGGER_LEVEL=${RUSTFS_OBS_LOGGER_LEVEL:-"info"}
-export RUSTFS_OBS_LOG_STDOUT_ENABLED=${RUSTFS_OBS_LOG_STDOUT_ENABLED:-"true"}
+export RUSTFS_OBS_LOG_STDOUT_ENABLED=${RUSTFS_OBS_LOG_STDOUT_ENABLED:-"false"}
 
 RUSTFS_URL=${RUSTFS_URL:-"http://127.0.0.1:9000"}
 RUSTFS_USER=${RUSTFS_ROOT_USER:-"minio"}
