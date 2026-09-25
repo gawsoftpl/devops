@@ -26,7 +26,7 @@ create_bucket() {
 }
 
 # 1. Launch RustFS in background, forcing standard streams directly to stdout/stderr
-rustfs --console-address ":9001" --memory &
+rustfs --console-address ":9001" /data &
 RUSTFS_PID=$!
 
 # Ensure process clean-up on exit
